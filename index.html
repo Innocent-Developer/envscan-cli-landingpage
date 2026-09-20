@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+  <!-- Primary SEO -->
+  <title>envscan-cli — Audit .env files &amp; environment variables before deploy</title>
+  <meta name="description" content="envscan-cli is a free, open-source Node.js CLI that finds missing, undocumented and unused environment variables, detects leaked secrets in .env files and checks .gitignore — in one npx command.">
+  <meta name="keywords" content="envscan-cli, env audit, .env checker, environment variables, dotenv, .env.example, missing env variables, unused env variables, secret detection, npm cli, node.js, CI/CD, GitHub Actions">
+  <meta name="author" content="Abubakkar Sajid">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+  <link rel="canonical" href="https://envscan-cli.abubakkar.dev/">
+  <meta name="theme-color" content="#F4F6F5">
+  <meta name="color-scheme" content="light">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="envscan-cli">
+  <meta property="og:title" content="envscan-cli — Audit your environment variables before they break production">
+  <meta property="og:description" content="Find missing, undocumented and unused env vars, catch leaked secrets and check .gitignore coverage. One command: npx envscan-cli">
+  <meta property="og:url" content="https://envscan-cli.abubakkar.dev/">
+  <meta property="og:image" content="https://envscan-cli.abubakkar.dev/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="envscan-cli terminal report showing missing, undocumented and unused environment variables">
+  <meta property="og:locale" content="en_US">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="envscan-cli — Audit your .env before it breaks production">
+  <meta name="twitter:description" content="Missing, undocumented and unused env vars, leaked secrets and .gitignore checks. npx envscan-cli">
+  <meta name="twitter:image" content="https://envscan-cli.abubakkar.dev/og-image.png">
+
+  <!-- Icons & manifest -->
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/styles.css">
+
+  <!-- Structured data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "SoftwareApplication",
+        "@id": "https://envscan-cli.abubakkar.dev/#software",
+        "name": "envscan-cli",
+        "description": "A Node.js command-line tool that audits environment variables: finds missing, undocumented and unused variables, detects leaked secrets in .env files and checks .gitignore coverage.",
+        "url": "https://envscan-cli.abubakkar.dev/",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Windows, macOS, Linux",
+        "softwareVersion": "2.0.3",
+        "license": "https://opensource.org/licenses/MIT",
+        "downloadUrl": "https://www.npmjs.com/package/envscan-cli",
+        "installUrl": "https://www.npmjs.com/package/envscan-cli",
+        "codeRepository": "https://github.com/Innocent-Developer/envscan-cli",
+        "programmingLanguage": "JavaScript",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+        "author": { "@id": "https://envscan-cli.abubakkar.dev/#author" }
+      },
+      {
+        "@type": "Person",
+        "@id": "https://envscan-cli.abubakkar.dev/#author",
+        "name": "Abubakkar Sajid",
+        "url": "https://abubakkar.dev",
+        "sameAs": ["https://github.com/Innocent-Developer"]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://envscan-cli.abubakkar.dev/#website",
+        "url": "https://envscan-cli.abubakkar.dev/",
+        "name": "envscan-cli",
+        "inLanguage": "en"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Does envscan-cli ever print my secret values?",
+            "acceptedAnswer": { "@type": "Answer", "text": "No. Only the variable name and the reason it was flagged are printed. The value itself is never shown in the CLI report or the JSON output." }
+          },
+          {
+            "@type": "Question",
+            "name": "Will --fix change my real .env file?",
+            "acceptedAnswer": { "@type": "Answer", "text": "No. --fix only appends empty placeholder entries (VAR_NAME=) to .env.example. Your real .env file is never modified." }
+          },
+          {
+            "@type": "Question",
+            "name": "When does envscan-cli fail a CI build?",
+            "acceptedAnswer": { "@type": "Answer", "text": "By default it exits with code 1 only when variables are missing. Add --strict to also fail on undocumented or unused variables." }
+          },
+          {
+            "@type": "Question",
+            "name": "Do I need to install envscan-cli?",
+            "acceptedAnswer": { "@type": "Answer", "text": "No. Run npx envscan-cli in any project. You can also add it as a dev dependency with npm install --save-dev envscan-cli." }
+          },
+          {
+            "@type": "Question",
+            "name": "How can I verify a published envscan-cli release?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Releases are published with npm Trusted Publishing, so each version carries a provenance attestation linking it to the exact GitHub Actions run and commit. Check the Provenance tab on the version's npm page." }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="/" aria-label="envscan-cli home">
+        <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="2" y="2" width="28" height="28" rx="7" fill="#17201D"/><rect x="8" y="10" width="11" height="3" rx="1.5" fill="#F5D90A"/><rect x="8" y="15" width="16" height="3" rx="1.5" fill="#FFFFFF" opacity=".85"/><rect x="8" y="20" width="7" height="3" rx="1.5" fill="#E8604F"/></svg>
+        <span>envscan-cli</span>
+      </a>
+      <nav class="nav" aria-label="Main">
+        <button class="nav-toggle" aria-expanded="false" aria-controls="nav-list">
+          <span class="sr-only">Open menu</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <ul id="nav-list" class="nav-list">
+          <li><a href="#catches">What it catches</a></li>
+          <li><a href="#usage">Usage</a></li>
+          <li><a href="#options">Options</a></li>
+          <li><a href="#ci">CI/CD</a></li>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a class="nav-gh" href="https://github.com/Innocent-Developer/envscan-cli" rel="noopener" target="_blank">GitHub</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- HERO -->
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div class="hero-copy">
+          <p class="version-pill"><span class="dot" aria-hidden="true"></span> v2.0.3 on npm, MIT licensed</p>
+          <h1>Catch broken environment variables before your deploy does.</h1>
+          <p class="lede">envscan-cli reads your code and your <code>.env</code> files, then shows exactly where they’ve drifted apart — plus any secrets that shouldn’t be sitting there.</p>
+
+          <div class="install" role="group" aria-label="Run command">
+            <code id="install-cmd"><span class="prompt" aria-hidden="true">$</span> npx envscan-cli</code>
+            <button class="copy-btn" data-copy="npx envscan-cli" aria-label="Copy command npx envscan-cli">Copy</button>
+          </div>
+
+          <div class="hero-links">
+            <a class="btn btn-dark" href="https://www.npmjs.com/package/envscan-cli" rel="noopener" target="_blank">View on npm</a>
+            <a class="btn btn-line" href="https://github.com/Innocent-Developer/envscan-cli" rel="noopener" target="_blank">Read the source</a>
+          </div>
+          <p class="hero-note">No install, no config, no account. Works in any Node.js project.</p>
+        </div>
+
+        <div class="terminal" aria-label="Example envscan-cli report">
+          <div class="term-bar">
+            <span class="lights" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span class="term-title">~/my-app</span>
+            <button class="replay" id="replay" type="button">Run again</button>
+          </div>
+          <pre class="term-body" id="term" aria-live="off"><span class="t-cmd">$ npx envscan-cli</span>
+
+<span class="t-miss">✖ MISSING (2)</span> <span class="t-dim">used in code but not in any .env file</span>
+  <span class="t-name">❯ JWT_SECRET</span>      <span class="t-dim">src/auth.js:12</span>
+  <span class="t-name">❯ STRIPE_KEY</span>      <span class="t-dim">src/payments.js:8</span>
+
+<span class="t-undoc">⚠ UNDOCUMENTED (1)</span> <span class="t-dim">in .env, not in .env.example</span>
+  <span class="t-name">❯ APP_NAME</span>
+
+<span class="t-unused">○ UNUSED (1)</span> <span class="t-dim">defined in .env, never used</span>
+  <span class="t-name">❯ OLD_TOKEN</span>
+
+<span class="t-dim">2 missing · 1 undocumented · 1 unused</span>
+<span class="t-dim">Scanned 3 files in 0.1s</span></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROBLEM -->
+    <section class="problem">
+      <div class="wrap narrow">
+        <h2>Environment variables rot quietly</h2>
+        <p>A teammate adds <code>process.env.STRIPE_KEY</code> in a new module and forgets <code>.env.example</code>. Nobody notices until a deploy fails. Old keys pile up long after the code that used them is gone. A real secret ends up in a <code>.env</code> that was never gitignored. envscan-cli finds all of it in one pass.</p>
+      </div>
+    </section>
+
+    <!-- CATCHES -->
+    <section id="catches" class="section">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>What it catches</h2>
+          <p>Five checks, run together every time. Here’s what each one looks like in a real project.</p>
+        </div>
+
+        <div class="audit">
+          <div class="audit-row">
+            <div class="audit-code">
+              <span class="file">src/payments.js</span>
+<pre><code>const stripe = new Stripe(<mark class="m-miss">process.env.STRIPE_KEY</mark>);</code></pre>
+            </div>
+            <div class="audit-note">
+              <h3><span class="sym s-miss" aria-hidden="true">✖</span> Missing</h3>
+              <p>Referenced in code but defined in no <code>.env</code> file. This is what fails the build.</p>
+            </div>
+          </div>
+
+          <div class="audit-row">
+            <div class="audit-code">
+              <span class="file">.env</span>
+<pre><code><mark class="m-undoc">APP_NAME=Orders Dashboard</mark>
+DATABASE_URL=postgres://…</code></pre>
+            </div>
+            <div class="audit-note">
+              <h3><span class="sym s-undoc" aria-hidden="true">⚠</span> Undocumented</h3>
+              <p>In <code>.env</code> but missing from <code>.env.example</code>, so the next contributor won’t know it exists.</p>
+            </div>
+          </div>
+
+          <div class="audit-row">
+            <div class="audit-code">
+              <span class="file">.env</span>
+<pre><code><mark class="m-unused">OLD_TOKEN=a81f…</mark>
+PORT=3000</code></pre>
+            </div>
+            <div class="audit-note">
+              <h3><span class="sym s-unused" aria-hidden="true">○</span> Unused</h3>
+              <p>Defined but never referenced anywhere in code. Usually a leftover from a removed feature.</p>
+            </div>
+          </div>
+
+          <div class="audit-row">
+            <div class="audit-code">
+              <span class="file">.env.production</span>
+<pre><code><mark class="m-secret">AWS_ACCESS_KEY_ID=AKIA••••••••••••</mark>
+GITHUB_TOKEN=ghp_••••••••••••</code></pre>
+            </div>
+            <div class="audit-note">
+              <h3><span class="sym s-secret" aria-hidden="true">🔒</span> Potential secret leaks</h3>
+              <p>Known credential formats — AWS, Stripe live keys, GitHub, Slack, Google API keys, PEM blocks, JWTs — plus high-entropy values on names like <code>*SECRET*</code> or <code>*TOKEN*</code>. Only the name and reason are printed, never the value.</p>
+            </div>
+          </div>
+
+          <div class="audit-row">
+            <div class="audit-code">
+              <span class="file">.gitignore</span>
+<pre><code>node_modules/
+dist/
+<mark class="m-git"># .env is not listed</mark></code></pre>
+            </div>
+            <div class="audit-note">
+              <h3><span class="sym s-git" aria-hidden="true">🔓</span> Gitignore hygiene</h3>
+              <p>Warns when your <code>.env</code> isn’t actually covered by <code>.gitignore</code>, before it gets committed.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- USAGE -->
+    <section id="usage" class="section section-alt">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>From first run to CI gate</h2>
+          <p>Most projects go through these four steps once, then leave envscan-cli running in CI.</p>
+        </div>
+
+        <ol class="steps">
+          <li>
+            <h3>Run it</h3>
+            <p>Point it at any project. No install needed.</p>
+            <div class="cmd"><code>npx envscan-cli --dir ./backend</code><button class="copy-btn sm" data-copy="npx envscan-cli --dir ./backend">Copy</button></div>
+          </li>
+          <li>
+            <h3>Check typos</h3>
+            <p>Missing a variable you’re sure you defined? Get the closest match from <code>.env.example</code>.</p>
+            <div class="cmd"><code>npx envscan-cli --suggest</code><button class="copy-btn sm" data-copy="npx envscan-cli --suggest">Copy</button></div>
+          </li>
+          <li>
+            <h3>Fix the example file</h3>
+            <p>Adds empty placeholders to <code>.env.example</code>. Your real <code>.env</code> is never touched.</p>
+            <div class="cmd"><code>npx envscan-cli --fix</code><button class="copy-btn sm" data-copy="npx envscan-cli --fix">Copy</button></div>
+          </li>
+          <li>
+            <h3>Gate your deploys</h3>
+            <p>Generates a ready-to-commit GitHub Actions workflow.</p>
+            <div class="cmd"><code>npx envscan-cli init-ci</code><button class="copy-btn sm" data-copy="npx envscan-cli init-ci">Copy</button></div>
+          </li>
+        </ol>
+
+        <div class="suggest-demo">
+          <p class="suggest-label">What <code>--suggest</code> prints</p>
+<pre><code><span class="t-miss">✖ MISSING (1)</span>
+❯ DATABASE_URL
+    src/db.js:4
+    💡 Did you mean DB_URL instead of DATABASE_URL?</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- OPTIONS -->
+    <section id="options" class="section">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>Every option</h2>
+          <p>CLI flags always override the config file.</p>
+        </div>
+
+        <label class="filter">
+          <span class="sr-only">Filter options</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="m20 20-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <input id="flag-filter" type="search" placeholder="Filter options, e.g. json or secret" autocomplete="off">
+        </label>
+
+        <div class="table-scroll">
+          <table class="flags" id="flags">
+            <thead><tr><th scope="col">Flag</th><th scope="col">What it does</th></tr></thead>
+            <tbody>
+              <tr><td><code>-d, --dir &lt;path&gt;</code></td><td>Directory to scan. Defaults to the current working directory.</td></tr>
+              <tr><td><code>-e, --example &lt;path&gt;</code></td><td>Custom path to your <code>.env.example</code> file.</td></tr>
+              <tr><td><code>-c, --config &lt;path&gt;</code></td><td>Use a specific config file instead of auto-detection.</td></tr>
+              <tr><td><code>--ignore-unused</code></td><td>Hide unused variable warnings.</td></tr>
+              <tr><td><code>--no-banner</code></td><td>Hide the startup banner.</td></tr>
+              <tr><td><code>--fix</code></td><td>Add missing and undocumented variables to <code>.env.example</code> as placeholders.</td></tr>
+              <tr><td><code>--json</code></td><td>Print a machine-readable JSON report instead of the CLI report.</td></tr>
+              <tr><td><code>--no-secrets</code></td><td>Skip secret-leak detection for this run.</td></tr>
+              <tr><td><code>-w, --watch</code></td><td>Re-run the audit on every source or <code>.env</code> change.</td></tr>
+              <tr><td><code>--strict</code></td><td>Fail the build on undocumented and unused variables too, not just missing.</td></tr>
+              <tr><td><code>--suggest</code></td><td>Suggest the closest <code>.env.example</code> name for each missing variable.</td></tr>
+              <tr><td><code>-v, --version</code></td><td>Show the installed version.</td></tr>
+              <tr><td><code>-h, --help</code></td><td>Show help and usage examples.</td></tr>
+            </tbody>
+          </table>
+          <p class="no-match" id="no-match" hidden>No option matches that search.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONFIG -->
+    <section id="config" class="section section-alt">
+      <div class="wrap config-grid">
+        <div>
+          <h2>Configure once, or not at all</h2>
+          <p>Drop an <code>envscan-cli.config.js</code> or <code>.envscan-clirc.json</code> in your project root and it’s picked up automatically. Prefer a plain list? Use <code>.envscanignore</code>, gitignore-style, with trailing wildcards like <code>LEGACY_*</code>.</p>
+          <p>Both ignore lists are merged, so use whichever suits you.</p>
+        </div>
+
+        <div class="tabs">
+          <div class="tab-list" role="tablist" aria-label="Configuration examples">
+            <button role="tab" id="tab-config" aria-controls="panel-config" aria-selected="true">envscan-cli.config.js</button>
+            <button role="tab" id="tab-ignore" aria-controls="panel-ignore" aria-selected="false" tabindex="-1">.envscanignore</button>
+            <button role="tab" id="tab-json" aria-controls="panel-json" aria-selected="false" tabindex="-1">--json</button>
+          </div>
+          <div class="tab-panel" role="tabpanel" id="panel-config" aria-labelledby="tab-config">
+<pre><code><span class="c">// envscan-cli.config.js</span>
+export default {
+  <span class="c">// Names/patterns excluded from every check</span>
+  ignore: [<span class="s">'LEGACY_*'</span>, <span class="s">'DEBUG'</span>],
+  exampleFile: <span class="s">'.env.example'</span>,
+  ignoreUnused: <span class="k">false</span>,
+  secretDetection: <span class="k">true</span>,
+};</code></pre>
+          </div>
+          <div class="tab-panel" role="tabpanel" id="panel-ignore" aria-labelledby="tab-ignore" hidden>
+<pre><code><span class="c"># .envscanignore</span>
+DEBUG
+LEGACY_*</code></pre>
+          </div>
+          <div class="tab-panel" role="tabpanel" id="panel-json" aria-labelledby="tab-json" hidden>
+<pre><code><span class="c"># pipe into dashboards or CI annotations</span>
+npx envscan-cli --json &gt; report.json
+
+<span class="c"># report keys</span>
+missing, undocumented, unused, secrets,
+gitignoreProtectsEnv, strict, failReasons, meta</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CI -->
+    <section id="ci" class="section">
+      <div class="wrap ci-grid">
+        <div>
+          <h2>A pre-deploy gate that takes one line</h2>
+          <p>envscan-cli exits with code 1 whenever a variable is missing, so the job fails before a broken build reaches production.</p>
+          <dl class="exit">
+            <div><dt>Default</dt><dd>Fails only on missing variables. Everything else is reported as advice.</dd></div>
+            <div><dt><code>--strict</code></dt><dd>Also fails on undocumented and unused variables.</dd></div>
+            <div><dt><code>--strict --ignore-unused</code></dt><dd>Strict on missing and undocumented, relaxed on unused.</dd></div>
+          </dl>
+        </div>
+        <div class="code-card">
+          <div class="code-card-head">
+            <span>.github/workflows/envscan-cli.yml</span>
+            <button class="copy-btn sm" data-copy-target="ci-yaml">Copy</button>
+          </div>
+<pre id="ci-yaml"><code>name: envscan-cli
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  audit-env:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Audit environment variables
+        run: npx envscan-cli --dir . --ignore-unused</code></pre>
+        </div>
+      </div>
+
+      <div class="wrap">
+        <div class="provenance">
+          <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 4 6 10v9c0 8.5 6 15.5 14 17 8-1.5 14-8.5 14-17v-9L20 4Z" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/><path d="m14 20 4.5 4.5L27 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div>
+            <h3>Every release is verifiable</h3>
+            <p>Releases are published only from a GitHub Release, using npm Trusted Publishing (OIDC) — no stored npm tokens. Each version carries a provenance attestation tying it to the exact workflow run and commit that built it. Check the Provenance tab on any version’s npm page.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="section section-alt">
+      <div class="wrap narrow">
+        <h2>Questions</h2>
+        <details>
+          <summary>Does envscan-cli ever print my secret values?</summary>
+          <p>No. Only the variable name and the reason it was flagged are printed. The value itself never appears in the CLI report or the JSON output.</p>
+        </details>
+        <details>
+          <summary>Will <code>--fix</code> change my real .env file?</summary>
+          <p>No. <code>--fix</code> only appends empty placeholders (<code>VAR_NAME=</code>) to <code>.env.example</code>, which should never hold real values anyway.</p>
+        </details>
+        <details>
+          <summary>Which .env files are scanned for secrets?</summary>
+          <p><code>.env</code>, <code>.env.local</code>, <code>.env.development</code> and <code>.env.production</code>. <code>.env.example</code> is never scanned for secrets.</p>
+        </details>
+        <details>
+          <summary>How reliable are the <code>--suggest</code> typo hints?</summary>
+          <p>They’re edit-distance based. They catch most renames and typos, but can occasionally suggest a name that isn’t actually related, so treat them as a hint.</p>
+        </details>
+        <details>
+          <summary>When does it fail a CI build?</summary>
+          <p>By default, only when variables are missing (exit code 1). Add <code>--strict</code> to fail on undocumented or unused variables too.</p>
+        </details>
+        <details>
+          <summary>Can I turn off secret detection?</summary>
+          <p>Yes. Pass <code>--no-secrets</code> for a single run, or set <code>secretDetection: false</code> in your config file.</p>
+        </details>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta">
+      <div class="wrap cta-inner">
+        <h2>Audit your project in the next ten seconds.</h2>
+        <div class="install install-light" role="group" aria-label="Run command">
+          <code><span class="prompt" aria-hidden="true">$</span> npx envscan-cli</code>
+          <button class="copy-btn" data-copy="npx envscan-cli" aria-label="Copy command npx envscan-cli">Copy</button>
+        </div>
+        <p>Found a bug or have an idea? <a href="https://github.com/Innocent-Developer/envscan-cli/issues" rel="noopener" target="_blank">Open an issue on GitHub</a>.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-inner">
+      <p>envscan-cli is MIT licensed. Built by <a href="https://github.com/Innocent-Developer" rel="noopener" target="_blank">Abubakkar Sajid</a>.</p>
+      <ul>
+        <li><a href="https://www.npmjs.com/package/envscan-cli" rel="noopener" target="_blank">npm</a></li>
+        <li><a href="https://github.com/Innocent-Developer/envscan-cli" rel="noopener" target="_blank">GitHub</a></li>
+        <li><a href="https://github.com/Innocent-Developer/envscan-cli/releases" rel="noopener" target="_blank">Releases</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="/script.js" defer></script>
+</body>
+</html>

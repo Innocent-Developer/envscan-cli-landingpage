@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://envscan-cli.abubakkar.dev/sitemap.xml

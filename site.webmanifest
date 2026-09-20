@@ -1,0 +1,13 @@
+{
+  "name": "envscan-cli",
+  "short_name": "envscan-cli",
+  "description": "Audit your environment variables before they break production.",
+  "start_url": "/",
+  "display": "browser",
+  "background_color": "#F4F6F5",
+  "theme_color": "#F4F6F5",
+  "icons": [
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" },
+    { "src": "/apple-touch-icon.png", "sizes": "180x180", "type": "image/png" }
+  ]
+}
