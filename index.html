@@ -38,6 +38,9 @@
   <link rel="manifest" href="/site.webmanifest">
 
   <!-- Fonts -->
+  <link rel="preconnect" href="https://api.github.com" crossorigin>
+  <link rel="preconnect" href="https://registry.npmjs.org" crossorigin>
+  <link rel="preconnect" href="https://api.npmjs.org" crossorigin>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
@@ -134,7 +137,7 @@
           <li><a href="#options">Options</a></li>
           <li><a href="#ci">CI/CD</a></li>
           <li><a href="#faq">FAQ</a></li>
-          <li><a class="nav-gh" href="https://github.com/Innocent-Developer/envscan-cli" rel="noopener" target="_blank">GitHub</a></li>
+          <li><a class="nav-gh" href="https://github.com/Innocent-Developer/envscan-cli" rel="noopener" target="_blank">GitHub <span class="nav-stars" data-stat="stars-nav" hidden></span></a></li>
         </ul>
       </nav>
     </div>
@@ -145,7 +148,7 @@
     <section class="hero">
       <div class="wrap hero-grid">
         <div class="hero-copy">
-          <p class="version-pill"><span class="dot" aria-hidden="true"></span> v2.0.3 on npm, MIT licensed</p>
+          <p class="version-pill"><span class="dot" aria-hidden="true"></span> <span data-stat="version-pill">v2.0.3</span> on npm, MIT licensed</p>
           <h1>Catch broken environment variables before your deploy does.</h1>
           <p class="lede">envscan-cli reads your code and your <code>.env</code> files, then shows exactly where they’ve drifted apart — plus any secrets that shouldn’t be sitting there.</p>
 
@@ -181,6 +184,52 @@
 
 <span class="t-dim">2 missing · 1 undocumented · 1 unused</span>
 <span class="t-dim">Scanned 3 files in 0.1s</span></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- LIVE STATS -->
+    <section class="stats" id="stats" aria-labelledby="stats-title">
+      <div class="wrap">
+        <div class="stats-head">
+          <h2 id="stats-title">Live from npm and GitHub</h2>
+          <p class="stats-status" id="stats-status" role="status">Loading the latest numbers…</p>
+        </div>
+
+        <div class="stats-grid">
+          <div class="dl-panel">
+            <p class="stat-label">Total npm downloads</p>
+            <p class="stat-big" data-stat="total">—</p>
+            <div class="dl-chart" id="dl-chart" role="img" aria-label="Daily downloads chart, loading"></div>
+            <div class="dl-axis"><span id="dl-from"></span><span id="dl-to"></span></div>
+            <div class="dl-sub">
+              <div><span data-stat="week">—</span><small>Last 7 days</small></div>
+              <div><span data-stat="month">—</span><small>Last 30 days</small></div>
+              <div><span data-stat="peak">—</span><small>Best day</small></div>
+            </div>
+          </div>
+
+          <dl class="facts">
+            <div><dt>GitHub stars</dt><dd data-stat="stars">—</dd></div>
+            <div><dt>Forks</dt><dd data-stat="forks">—</dd></div>
+            <div><dt>Watchers</dt><dd data-stat="watchers">—</dd></div>
+            <div><dt>Open issues</dt><dd data-stat="issues">—</dd></div>
+            <div><dt>Latest version</dt><dd data-stat="version">—</dd></div>
+            <div><dt>Last published</dt><dd data-stat="published">—</dd></div>
+            <div><dt>Versions released</dt><dd data-stat="versions">—</dd></div>
+            <div><dt>Unpacked size</dt><dd data-stat="size">—</dd></div>
+            <div><dt>Dependencies</dt><dd data-stat="deps">—</dd></div>
+            <div><dt>License</dt><dd data-stat="license">MIT</dd></div>
+          </dl>
+        </div>
+
+        <div class="stats-foot">
+          <a class="btn btn-dark" href="https://github.com/Innocent-Developer/envscan-cli" rel="noopener" target="_blank">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9L12 3.5Z" fill="currentColor"/></svg>
+            Star on GitHub
+          </a>
+          <a class="btn btn-line" href="https://npm-stat.com/charts.html?package=envscan-cli" rel="noopener" target="_blank">Full download history</a>
+          <p class="stats-note">npm updates download counts once a day, so today isn’t included yet.</p>
         </div>
       </div>
     </section>
