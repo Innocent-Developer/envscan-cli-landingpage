@@ -6,8 +6,8 @@
 
   <!-- Primary SEO -->
   <title>envscan-cli — Audit .env files &amp; environment variables before deploy</title>
-  <meta name="description" content="envscan-cli is a free, open-source Node.js CLI that finds missing, undocumented and unused environment variables, detects leaked secrets in .env files and checks .gitignore — in one npx command.">
-  <meta name="keywords" content="envscan-cli, env audit, .env checker, environment variables, dotenv, .env.example, missing env variables, unused env variables, secret detection, npm cli, node.js, CI/CD, GitHub Actions">
+  <meta name="description" content="envscan-cli is a free, open-source Node.js CLI that finds missing, undocumented and unused environment variables, detects leaked secrets in .env files and checks .gitignore coverage. One command: npx envscan-cli">
+  <meta name="keywords" content="envscan-cli, env audit, .env checker, environment variables, dotenv, .env.example, missing env variables, unused env variables, secret detection, npm cli, node.js, developer tools, CI">
   <meta name="author" content="Abubakkar Sajid">
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
   <link rel="canonical" href="https://envscan-cli.abubakkar.dev/">
@@ -109,7 +109,7 @@
           {
             "@type": "Question",
             "name": "How can I verify a published envscan-cli release?",
-            "acceptedAnswer": { "@type": "Answer", "text": "Releases are published with npm Trusted Publishing, so each version carries a provenance attestation linking it to the exact GitHub Actions run and commit. Check the Provenance tab on the version's npm page." }
+            "acceptedAnswer": { "@type": "Answer", "text": "Releases are published with npm Trusted Publishing, so each version carries a provenance attestation linking it to the exact GitHub Actions run, commit and workflow that built it." }
           }
         ]
       }
@@ -132,7 +132,7 @@
   <header class="site-header">
     <div class="wrap header-inner">
       <a class="brand" href="/" aria-label="envscan-cli home">
-        <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="2" y="2" width="28" height="28" rx="7" fill="#17201D"/><rect x="8" y="10" width="11" height="3" rx="1.5" fill="#F5D90A"/><rect x="8" y="15" width="16" height="3" rx="1.5" fill="#FFFFFF" opacity=".85"/><rect x="8" y="20" width="7" height="3" rx="1.5" fill="#E8604F"/></svg>
+        <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="2" y="2" width="28" height="28" rx="7" fill="#17201D"/><rect x="8" y="10" width="11" height="3" rx="1.5" fill="#F5D7A0"/><rect x="8" y="15" width="16" height="3" rx="1.5" fill="#F5D7A0"/><rect x="8" y="20" width="13" height="3" rx="1.5" fill="#F5D7A0"/></svg>
         <span>envscan-cli</span>
       </a>
       <nav class="nav" aria-label="Main">
@@ -247,7 +247,81 @@
     <section class="problem">
       <div class="wrap narrow">
         <h2>Environment variables rot quietly</h2>
-        <p>A teammate adds <code>process.env.STRIPE_KEY</code> in a new module and forgets <code>.env.example</code>. Nobody notices until a deploy fails. Old keys pile up long after the code that used them is gone. A real secret ends up in a <code>.env</code> that was never gitignored. envscan-cli finds all of it in one pass.</p>
+        <p>A teammate adds <code>process.env.STRIPE_KEY</code> in a new module and forgets <code>.env.example</code>. Nobody notices until a deploy fails. Old keys pile up long after the code that used them is removed, and real secrets end up in files that were never gitignored.</p>
+      </div>
+    </section>
+
+    <section class="section" style="padding-top:0;">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>What’s new in envscan-cli</h2>
+          <p>Beyond the core audit, the latest release adds setup help, reporting, validation, and release safety checks.</p>
+        </div>
+
+        <div class="audit">
+          <div class="audit-row">
+            <div class="audit-code">
+              <span class="file">npx envscan-cli --init</span>
+<pre><code>Interactive setup wizard
+• generates .env.example
+• adds type hints
+• scaffolds config</code></pre>
+            </div>
+            <div class="audit-note">
+              <h3><span class="sym s-miss" aria-hidden="true">⚡</span> Guided setup</h3>
+              <p>Creates a starter <code>.env.example</code> from code references and walks you through naming, types, and descriptions.</p>
+            </div>
+          </div>
+
+          <div class="audit-row">
+            <div class="audit-code">
+              <span class="file">--report html</span>
+<pre><code>envscan-cli --report html
+# writes a shareable report</code></pre>
+            </div>
+            <div class="audit-note">
+              <h3><span class="sym s-undoc" aria-hidden="true">📄</span> Shareable reports</h3>
+              <p>Export a single self-contained HTML report with the health score, findings, and clickable VS Code deep links.</p>
+            </div>
+          </div>
+
+          <div class="audit-row">
+            <div class="audit-code">
+              <span class="file">--stats</span>
+<pre><code>envscan-cli --stats
+# 0–100 environment health</code></pre>
+            </div>
+            <div class="audit-note">
+              <h3><span class="sym s-git" aria-hidden="true">📊</span> Health score</h3>
+              <p>Turns every finding into a simple 0–100 environment hygiene score so you can track progress over time.</p>
+            </div>
+          </div>
+
+          <div class="audit-row">
+            <div class="audit-code">
+              <span class="file">--compare .env.staging .env.production</span>
+<pre><code>detect drift between files
+missing · different values · mismatches</code></pre>
+            </div>
+            <div class="audit-note">
+              <h3><span class="sym s-secret" aria-hidden="true">🔄</span> Environment comparison</h3>
+              <p>Compare two env files side by side to catch drift before a deployment or release promotion.</p>
+            </div>
+          </div>
+
+          <div class="audit-row">
+            <div class="audit-code">
+              <span class="file">--validate-format</span>
+<pre><code>PORT=abc
+APP_URL=localhost
+# invalid format flagged</code></pre>
+            </div>
+            <div class="audit-note">
+              <h3><span class="sym s-unused" aria-hidden="true">🧪</span> Type validation</h3>
+              <p>Check whether actual env values match the declared schema: <code>number</code>, <code>url</code>, <code>boolean</code>, <code>email</code>, and more.</p>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -303,7 +377,7 @@ GITHUB_TOKEN=ghp_••••••••••••</code></pre>
             </div>
             <div class="audit-note">
               <h3><span class="sym s-secret" aria-hidden="true">🔒</span> Potential secret leaks</h3>
-              <p>Known credential formats — AWS, Stripe live keys, GitHub, Slack, Google API keys, PEM blocks, JWTs — plus high-entropy values on names like <code>*SECRET*</code> or <code>*TOKEN*</code>. Only the name and reason are printed, never the value.</p>
+              <p>Known credential formats — AWS, Stripe live keys, GitHub, Slack, Google API keys, PEM blocks, JWTs — plus high-entropy values on names like <code>*SECRET*</code> or <code>*TOKEN*</code>.</p>
             </div>
           </div>
 
@@ -393,6 +467,11 @@ dist/
               <tr><td><code>-w, --watch</code></td><td>Re-run the audit on every source or <code>.env</code> change.</td></tr>
               <tr><td><code>--strict</code></td><td>Fail the build on undocumented and unused variables too, not just missing.</td></tr>
               <tr><td><code>--suggest</code></td><td>Suggest the closest <code>.env.example</code> name for each missing variable.</td></tr>
+              <tr><td><code>--validate-format</code></td><td>Validate env values against your declared schema (number, url, email, boolean, etc.).</td></tr>
+              <tr><td><code>--compare &lt;fileA&gt; &lt;fileB&gt;</code></td><td>Compare two <code>.env</code> files and show missing or mismatched values.</td></tr>
+              <tr><td><code>--stats</code></td><td>Show a 0–100 environment-health score for the current project.</td></tr>
+              <tr><td><code>--report &lt;format&gt;</code></td><td>Generate a shareable report file, including <code>html</code> output.</td></tr>
+              <tr><td><code>--init</code></td><td>Launch the interactive setup wizard to generate <code>.env.example</code> and config files.</td></tr>
               <tr><td><code>-v, --version</code></td><td>Show the installed version.</td></tr>
               <tr><td><code>-h, --help</code></td><td>Show help and usage examples.</td></tr>
             </tbody>
@@ -407,7 +486,7 @@ dist/
       <div class="wrap config-grid">
         <div>
           <h2>Configure once, or not at all</h2>
-          <p>Drop an <code>envscan-cli.config.js</code> or <code>.envscan-clirc.json</code> in your project root and it’s picked up automatically. Prefer a plain list? Use <code>.envscanignore</code>, gitignore-style, with trailing wildcards like <code>LEGACY_*</code>.</p>
+          <p>Drop an <code>envscan-cli.config.js</code> or <code>.envscan-clirc.json</code> in your project root and it’s picked up automatically. Prefer a plain list? Use <code>.envscanignore</code> for global ignores. Need required vars? Add them in config with the <code>required</code> array. Want format validation? Use the <code>validate</code> object.</p>
           <p>Both ignore lists are merged, so use whichever suits you.</p>
         </div>
 
@@ -425,6 +504,12 @@ export default {
   exampleFile: <span class="s">'.env.example'</span>,
   ignoreUnused: <span class="k">false</span>,
   secretDetection: <span class="k">true</span>,
+  required: [<span class="s">'DATABASE_URL'</span>, <span class="s">'JWT_SECRET'</span>],
+  validate: {
+    PORT: <span class="s">'number'</span>,
+    APP_URL: <span class="s">'url'</span>,
+    DEBUG: <span class="s">'boolean'</span>
+  }
 };</code></pre>
           </div>
           <div class="tab-panel" role="tabpanel" id="panel-ignore" aria-labelledby="tab-ignore" hidden>
@@ -483,10 +568,10 @@ jobs:
 
       <div class="wrap">
         <div class="provenance">
-          <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 4 6 10v9c0 8.5 6 15.5 14 17 8-1.5 14-8.5 14-17v-9L20 4Z" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/><path d="m14 20 4.5 4.5L27 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 4 6 10v9c0 8.5 6 15.5 14 17 8-1.5 14-8.5 14-17v-9L20 4Z" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/><path d="M14 19.5l4.5 4.5 8-9" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
           <div>
             <h3>Every release is verifiable</h3>
-            <p>Releases are published only from a GitHub Release, using npm Trusted Publishing (OIDC) — no stored npm tokens. Each version carries a provenance attestation tying it to the exact workflow run and commit that built it. Check the Provenance tab on any version’s npm page.</p>
+            <p>Releases are published only from a GitHub Release, using npm Trusted Publishing (OIDC) — no stored npm tokens. Each version carries a provenance attestation tying it to the exact GitHub Actions run, commit and workflow that built it.</p>
           </div>
         </div>
       </div>
@@ -515,6 +600,10 @@ jobs:
         <details>
           <summary>When does it fail a CI build?</summary>
           <p>By default, only when variables are missing (exit code 1). Add <code>--strict</code> to fail on undocumented or unused variables too.</p>
+        </details>
+        <details>
+          <summary>Can I compare two env files before a release?</summary>
+          <p>Yes. Use <code>npx envscan-cli --compare .env.staging .env.production</code> to detect missing keys, mismatched values, and drift between environments.</p>
         </details>
         <details>
           <summary>Can I turn off secret detection?</summary>
